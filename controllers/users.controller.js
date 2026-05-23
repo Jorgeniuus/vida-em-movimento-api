@@ -62,7 +62,34 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
+const unsubscribeUser = async (req, res) => {
+  try {
+    const email = req.params.email
+      .trim()
+      .toLowerCase();
+
+    await db
+      .collection('users')
+      .doc(email)
+      .set(
+        {
+          isSubscribed: false,
+        },
+        { merge: true }
+      );
+
+    return res.status(200).json({
+      message: 'Usuário cancelou os lembretes',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createOrUpdateUser,
   getUserByEmail,
+  unsubscribeUser,
 };
