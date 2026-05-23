@@ -11,8 +11,8 @@ const createOrUpdateUser = async (req, res) => {
     }
 
     const safeEmail = data.email
-      .toLowerCase()
-      .replace(/[@.]/g, "_");
+      .trim()
+      .toLowerCase();
 
     await db.collection("users")
       .doc(safeEmail)
